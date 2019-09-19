@@ -343,7 +343,7 @@ private extension ArticleRenderer {
 
 		<script type="text/javascript">
 		
-		document.addEventListener('DOMContentLoaded', function(event) {
+		document.addEventListener("DOMContentLoaded", function(event) {
 			var anchors = document.getElementsByTagName("a");
 			for (var i = 0; i < anchors.length; i++) {
 				anchors[i].addEventListener("mouseenter", function() { mouseDidEnterLink(this) });
@@ -390,7 +390,7 @@ private extension ArticleRenderer {
 		s += """
 
 		<script type="text/javascript">
-		document.addEventListener('DOMContentLoaded', function(event) {
+		document.addEventListener("DOMContentLoaded", function(event) {
 			document.getElementsByTagName("body")[0].querySelectorAll("style, link[rel=stylesheet]").forEach(element => element.remove());
 			document.getElementsByTagName("body")[0].querySelectorAll("[style]").forEach(element => element.removeAttribute("style"));
 		})

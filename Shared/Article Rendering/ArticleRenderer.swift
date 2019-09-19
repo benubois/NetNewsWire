@@ -342,8 +342,8 @@ private extension ArticleRenderer {
 		s += """
 
 		<script type="text/javascript">
-
-		function startup() {
+		
+		document.addEventListener('DOMContentLoaded', function(event) {
 			var anchors = document.getElementsByTagName("a");
 			for (var i = 0; i < anchors.length; i++) {
 				anchors[i].addEventListener("mouseenter", function() { mouseDidEnterLink(this) });
@@ -352,7 +352,8 @@ private extension ArticleRenderer {
 		
 			document.getElementsByTagName("body")[0].querySelectorAll("style, link[rel=stylesheet]").forEach(element => element.remove());
 			document.getElementsByTagName("body")[0].querySelectorAll("[style]").forEach(element => element.removeAttribute("style"));
-		}
+		})
+
 
 		function mouseDidEnterLink(anchor) {
 			window.webkit.messageHandlers.mouseDidEnter.postMessage(anchor.href);
@@ -366,7 +367,7 @@ private extension ArticleRenderer {
 
 		"""
 		
-		s += "\n\n</head><body onload='startup()'>\n\n"
+		s += "\n\n</head><body>\n\n"
 		s += body
 		s += "\n\n</body></html>"
 
@@ -389,17 +390,15 @@ private extension ArticleRenderer {
 		s += """
 
 		<script type="text/javascript">
-
-		function startup() {
+		document.addEventListener('DOMContentLoaded', function(event) {
 			document.getElementsByTagName("body")[0].querySelectorAll("style, link[rel=stylesheet]").forEach(element => element.remove());
 			document.getElementsByTagName("body")[0].querySelectorAll("[style]").forEach(element => element.removeAttribute("style"));
-		}
-
+		})
 		</script>
 
 		"""
 		
-		s += "\n\n</head><body onload='startup()'>\n\n"
+		s += "\n\n</head><body>\n\n"
 		s += body
 		s += "\n\n</body></html>"
 		

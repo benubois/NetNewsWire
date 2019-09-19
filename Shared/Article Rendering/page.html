@@ -170,8 +170,48 @@
             img[src*="share-buttons"] {
                 display: none !important;
             }
+            .iframe-wrap {
+                position: relative;
+                display: block;
+                padding-top: 56.25%;
+            }
+            .iframe-wrap iframe {
+                position: absolute;
+                top: 0 !important;
+                left: 0 !important;
+                height: 100% !important;
+                width: 100% !important;
+            }
         </style>
         <script>
+            var init = {
+                wrapFrames: function () {
+                    document.querySelectorAll("iframe").forEach(element => {
+                        var wrapper = document.createElement("div");
+                        wrapper.classList.add("iframe-wrap");
+                        element.parentNode.insertBefore(wrapper, element);
+                        wrapper.appendChild(element);
+                    });
+                },
+
+                stripStyles: function() {
+                    document.getElementsByTagName("body")[0].querySelectorAll("style, link[rel=stylesheet]").forEach(element => element.remove());
+                    document.getElementsByTagName("body")[0].querySelectorAll("[style]").forEach(element => element.removeAttribute("style"));
+                },
+
+                scrollTop: function() {
+                    window.scrollTo(0, 0);
+                },
+
+                listen: function() {
+                    var anchors = document.getElementsByTagName("a");
+                    for (var i = 0; i < anchors.length; i++) {
+                        anchors[i].addEventListener("mouseenter", function() { mouseDidEnterLink(this) });
+                        anchors[i].addEventListener("mouseleave", function() { mouseDidExitLink(this) });
+                    }
+                }
+            }
+
             function mouseDidEnterLink(anchor) {
                 window.webkit.messageHandlers.mouseDidEnter.postMessage(anchor.href);
             }
@@ -180,21 +220,13 @@
                 window.webkit.messageHandlers.mouseDidExit.postMessage(anchor.href);
             }
 
-            function render(data) {
-                document.body.innerHTML = data.body;
-                window.scrollTo(0, 0);
-                var anchors = document.getElementsByTagName("a");
-                for (var i = 0; i < anchors.length; i++) {
-                    anchors[i].addEventListener("mouseenter", function() { mouseDidEnterLink(this) });
-                    anchors[i].addEventListener("mouseleave", function() { mouseDidExitLink(this) });
-                }
-
-                document.getElementsByTagName("body")[0].querySelectorAll("style, link[rel=stylesheet]").forEach(element => element.remove());
-                document.getElementsByTagName("body")[0].querySelectorAll("[style]").forEach(element => element.removeAttribute("style"));
-            }
-
             function error() {
                 document.body.innerHTML = "error";
+            }
+
+            function render(data) {
+                document.body.innerHTML = data.body;
+                Object.values(init).forEach(item => item());
             }
         </script>
     </head>
